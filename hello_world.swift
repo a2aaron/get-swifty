@@ -12,6 +12,12 @@ indirect enum BoolExpr {
     case or(BoolExpr, BoolExpr)
     case xor(BoolExpr, BoolExpr)
     case not(BoolExpr)
+    case eq(ArithExpr, ArithExpr)
+    case neq(ArithExpr, ArithExpr)
+    case lt(ArithExpr, ArithExpr)
+    case gt(ArithExpr, ArithExpr)
+    case leq(ArithExpr, ArithExpr)
+    case geq(ArithExpr, ArithExpr)
 }
 
 func boolEval(_ expr: BoolExpr) -> Bool {
