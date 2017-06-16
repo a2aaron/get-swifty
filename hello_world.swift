@@ -8,10 +8,10 @@ indirect enum ArithExpr {
 
 indirect enum BoolExpr {
     case bool(Bool)
-    case and(Bool, Bool)
-    case or(Bool, Bool)
-    case xor(Bool, Bool)
-    case not(Bool)
+    case and(BoolExpr, BoolExpr)
+    case or(BoolExpr, BoolExpr)
+    case xor(BoolExpr, BoolExpr)
+    case not(BoolExpr)
 }
 
 func boolEval(_ expr: BoolExpr) -> Bool {
@@ -19,17 +19,19 @@ func boolEval(_ expr: BoolExpr) -> Bool {
         case .bool(let x):
             return x
         case .and(let l, let r):
-            return l && r
+            return boolEval(l) && boolEval(r)
         case .or(let l, let r):
-            return l || r
+            return boolEval(l) || boolEval(r)
         case .xor(let l, let r):
-            return (l && !r) || (!l && r)
+            return (boolEval(l) && !boolEval(r)) || (!boolEval(l) && boolEval(r))
         case .not(let x):
-            return !x
+            return !boolEval(x)
     }
 }
 
 let x: ArithExpr = .add(.mul(.num(5.0), .num(1.0)), .num(60.6))
+
+let y: BoolExpr = .and(.bool(true), .xor(.bool(false),.bool(false)))
 
 func arithEval(_ expr: ArithExpr) -> Float {
 	switch (expr) {
@@ -47,3 +49,5 @@ func arithEval(_ expr: ArithExpr) -> Float {
 }
 
 print(arithEval(x))
+
+print(boolEval(y))
