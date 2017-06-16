@@ -6,6 +6,14 @@ indirect enum ArithExpr {
 	case div(ArithExpr, ArithExpr)
 }
 
+indirect enum BoolExpr {
+    case bool(Bool)
+    case and(Bool, Bool)
+    case or(Bool, Bool)
+    case xor(Bool, Bool)
+    case not(Bool)
+}
+
 let x: ArithExpr = .add(.mul(.num(5.0), .num(1.0)), .num(60.6))
 
 func arithEval(_ expr: ArithExpr) -> Float {
