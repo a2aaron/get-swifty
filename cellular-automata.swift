@@ -1,11 +1,24 @@
-let iters = 10000
-// let rule = [false, false, false, true, true, true, true, false]
+let iters = 128
+let rule = 54
 
 // I use a dictionary here because most rules result in not all the
 // spaces being filled. This depends on the exact rule, but it's likely that
 // less that half will be filled given a random row and random rule, 
 // so it's probably ok do this. Also this makes centering the row around zero much easier
 var row = [Int: Bool]()
+
+func in_rule(rule: Int, left: Bool, center: Bool, right: Bool) -> Bool {
+    switch (left, center, right) {
+        case (false, false, false): return rule & 1 == 1;
+        case (false, false, true): return rule & 2 == 2;
+        case (false, true, false): return rule & 4 == 4;
+        case (false, true, true): return rule & 8 == 8;
+        case (true, false, false): return rule & 16 == 16;
+        case (true, false, true): return rule & 32 == 32;
+        case (true, true, false): return rule & 64 == 64;
+        case (true, true, true): return rule & 128 == 128;
+    }
+}
 
 extension Dictionary {
     func get<T>(_ key: Key, defaultValue: T) -> T {
@@ -24,7 +37,7 @@ func right_pad(_ string: String, _ num_spaces: Int) -> String {
 }
 
 row[0] = true
-print(right_pad("T", 1 + (iters * 2)))
+print(right_pad("█", 1 + (iters * 2)))
 for i in 0..<iters {
     var next_row = [Int: Bool]()
     var row_string = ""
@@ -36,9 +49,9 @@ for i in 0..<iters {
 
         // rule 30: (left && !(center || right)) || (!left && (center || right))
         // rule 90: (left != right) && !center
-        if ((left && !(center || right)) || (!left && (center || right))) {
+        if (in_rule(rule: rule, left: left, center: center, right: right)) {
             next_row[j] = true
-            row_string += "T"
+            row_string += "█"
         } else {
             row_string += " "
         }
