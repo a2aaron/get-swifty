@@ -17,14 +17,14 @@ extension Dictionary {
     }
 }
 
-func center_pad(_ string: String, _ num_spaces: Int) -> String {
+func right_pad(_ string: String, _ num_spaces: Int) -> String {
     let length = string.utf16.count
     let count = (num_spaces - length) / 2
     return String(repeating: " ", count: count) + string
 }
 
 row[0] = true
-print(center_pad("T", 1 + (iters * 2)))
+print(right_pad("T", 1 + (iters * 2)))
 for i in 0..<iters {
     var next_row = [Int: Bool]()
     var row_string = ""
@@ -44,5 +44,5 @@ for i in 0..<iters {
         }
     }
     row = next_row
-    print(center_pad(row_string, 1 + (iters * 2)))
+    print(right_pad(row_string, 1 + (iters * 2)))
 }
