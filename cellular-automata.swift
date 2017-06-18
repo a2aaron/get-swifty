@@ -1,4 +1,4 @@
-let iters = 1000
+let iters = 10000
 // let rule = [false, false, false, true, true, true, true, false]
 
 // I use a dictionary here because most rules result in not all the
@@ -36,7 +36,7 @@ for i in 0..<iters {
 
         // rule 30: (left && !(center || right)) || (!left && (center || right))
         // rule 90: (left != right) && !center
-        if ((left != right) && !center) {
+        if ((left && !(center || right)) || (!left && (center || right))) {
             next_row[j] = true
             row_string += "T"
         } else {
